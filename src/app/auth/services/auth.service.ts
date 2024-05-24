@@ -18,7 +18,9 @@ export class AuthService {
   public currentUser = computed( () => this._currentUser() );
   public authStatus = computed( () => this._authStatus() );
 
-  constructor() { }
+  constructor() {
+    this.checkAuthStatus().subscribe();
+   }
 
   private setAuthentication( user: User, token: string ): boolean {
 
@@ -40,6 +42,10 @@ export class AuthService {
       );
   }
   checkAuthStatus(): Observable<boolean> {
+    // if (typeof window === 'undefined' || typeof window.localStorage === 'undefined') {
+    //   console.warn('localStorage is not available');
+    //   return of(false);
+    // }
     const url = `${ this.baseUrl }/auth/check-token`;
     const token = localStorage.getItem('token');
 
